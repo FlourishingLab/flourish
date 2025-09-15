@@ -1,9 +1,19 @@
 export interface Question {
-  category: string;
-  subcategory: string;
+  id: number;
   text: string;
   minLabel: string;
   maxLabel: string;
+  dimension: string;
+  subDimension: string;
+  facet: string;
 }
 
-export type QuestionsResponse = Record<string, Question>;
+export interface BackendQuestion {
+  id: number;
+  text: string;
+  min_label: string;
+  max_label: string;
+  dimension: string;
+  sub_dimension: string;
+  facet: string;
+}

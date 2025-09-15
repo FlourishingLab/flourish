@@ -1,29 +1,95 @@
-import Questionnaire from "@/components/Questionnaire";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { apiBase } from '@/utils/apiBase';
+import { useRouter } from 'expo-router';
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Path, Svg } from "react-native-svg";
+import LogoHeader from "../components/LogoHeader";
+import { useInsightStream } from "../contexts/InsightStream";
 
-const LogoIcon = () => (
-  <Svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-    <Path
-      d="M20 4C11.2 4 4 11.2 4 20s7.2 16 16 16 16-7.2 16-16S28.8 4 20 4zm0 2c7.7 0 14 6.3 14 14s-6.3 14-14 14S6 27.7 6 20 12.3 6 20 6z"
-      fill="#3b82f6"
-    />
-    <Path
-      d="M20 10c-2.8 0-5 2.2-5 5 0 1.6.8 3.1 2 4 1.2.9 2 2.3 2 4 0 1.7.9 3.2 2.2 4H20c2.8 0 5-2.2 5-5 0-1.6-.8-3.1-2-4-1.2-.9-2-2.3-2-4 0-2.8-2.2-5-5-5z"
-      fill="#3b82f6"
-    />
-  </Svg>
-);
+export default function WelcomeScreen() {
+  const router = useRouter();
+  const { setUserIdFromApp, connectStream } = useInsightStream();
 
-export default function App() {
+  // Ensure a uid exists when landing on the welcome screen (web refresh keeps cookie)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${apiBase || ""}/v1/user/id`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const uid = (data && data.uid) || null;
+          setUserIdFromApp(uid);
+          await connectStream();
+        } else {
+          console.error("Failed to ensure user id on welcome:", res.status);
+        }
+      } catch (e) {
+        console.error("Error ensuring user id on welcome:", e);
+      }
+    })();
+  }, [setUserIdFromApp, connectStream]);
+  
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <LogoIcon />
-        <Text style={styles.title}>flourish</Text>
-      </View>
-      <Questionnaire />
+      <LogoHeader />
+      
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.quote}>
+          “It is health that is real wealth and not pieces of gold and silver.” - Mahatma Gandhi
+        </Text>
+
+        {/* Pitch / Mission goes here */}
+        <Text style={styles.description}>
+          Many people live a long life of feeling just about right.
+          We believe there's more to life than feeling okay. We wanna make you flourish! We wanna increase your wellbeing by helping you to <Text style={{ fontWeight: "bold" }}>do consistently</Text> what's <Text style={{ fontWeight: "bold" }}>good for you</Text>!
+          This is a first step towards our vision of making you, the communities around you and ultimately the world, flourish. This is a Questionnaire which aims to find what's <Text style={{ fontWeight: "bold" }}>good for you</Text>. 
+          Eventually we will integrate something like this into a solution which helps you <Text style={{ fontWeight: "bold" }}>consistently do</Text> what you find out here!
+        </Text>
+        
+        <View style={styles.featureContainer}>
+          <View style={styles.feature}>
+            <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <Path
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3"
+                stroke="#3b82f6"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+            <Text style={styles.featureTitle}>Questionnaire</Text>
+            <Text style={styles.featureDescription}>
+              Answer questions about yourself to help us understand you better.
+            </Text>
+          </View>
+          
+          <View style={styles.feature}>
+            <Svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+              <Path
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                stroke="#3b82f6"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+            <Text style={styles.featureTitle}>Personalized Insights</Text>
+            <Text style={styles.featureDescription}>
+              Get custom recommendations for habits and inspirational content.
+            </Text>
+          </View>
+        </View>
+        
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => router.push('/(tabs)/questionnaire')}
+        >
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -31,24 +97,56 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
-  header: {
-    flexDirection: 'row',
+  content: {
+    padding: 10,
+    paddingTop: 10,
+  },
+  quote: {
+    fontSize: 16,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    color: '#4b5563',
+    marginVertical: 20,
+  },
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#4b5563',
+  },
+  featureContainer: {
+    marginBottom: 40,
+  },
+  feature: {
     alignItems: 'center',
+    marginBottom: 24,
     padding: 16,
-    paddingTop: 48,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: '#f3f4f6',
+    borderRadius: 12,
   },
-  title: {
-    fontSize: 24,
+  featureTitle: {
+    fontSize: 18,
     fontWeight: '600',
-    marginLeft: 12,
-    color: '#3b82f6',
-    letterSpacing: -0.5,
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  featureDescription: {
+    textAlign: 'center',
+    color: '#4b5563',
+    lineHeight: 22,
+  },
+  button: {
+    backgroundColor: '#3b82f6',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });

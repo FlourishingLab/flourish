@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 interface Content {
   name: string;
@@ -22,35 +22,11 @@ interface ResultsData {
 }
 
 interface Props {
-  isLoading: boolean;
-  data: ResultsData | null;
+  data: ResultsData;
 }
 
-const LoadingScreen = () => {
-  const messages = [
-    "Every step forward is progress, no matter how small...",
-    "Your journey to well-being matters...",
-    "Taking time for yourself is an act of self-care...",
-    "Growth happens one moment at a time...",
-    "You're already on the path to positive change..."
-  ];
+export const Insight: React.FC<Props> = ({ data }) => {
   
-  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-  
-  return (
-    <View style={styles.loadingContainer}>
-      <ActivityIndicator size="large" color="#3b82f6" />
-      <Text style={styles.loadingText}>{randomMessage}</Text>
-      <Text style={styles.loadingSubtext}>Processing your responses...</Text>
-    </View>
-  );
-};
-
-export const QuestionnaireResults: React.FC<Props> = ({ isLoading, data }) => {
-  if (isLoading || !data) {
-    return <LoadingScreen />;
-  }
-
   const handleLinkPress = (url: string) => {
     Linking.openURL(url);
   };
