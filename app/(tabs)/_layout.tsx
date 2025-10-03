@@ -42,10 +42,17 @@ const SettingsIcon = ({ color }: { color: string }) => (
 );
 
 export default function TabLayout() {
+  const HEADER_HEIGHT = 70;
   return (
     <View style={{ flex: 1 }}>
-      <LogoHeader />
-      <Tabs
+      {/* Header overlay so it remains clickable */}
+      <View style={[styles.headerOverlay, { height: HEADER_HEIGHT }]}>
+        <LogoHeader />
+      </View>
+
+      {/* Push content below header */}
+      <View style={{ flex: 1, paddingTop: HEADER_HEIGHT }}>
+        <Tabs
         screenOptions={{
           tabBarActiveTintColor: "#3b82f6",
           tabBarInactiveTintColor: "#6b7280",
@@ -73,12 +80,22 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
           }}
         />
-  </Tabs>
+        </Tabs>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  headerOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    backgroundColor: "#fff",
+    elevation: 2,
+  },
   tabBar: {
     backgroundColor: "#ffffff",
     borderTopWidth: 1,

@@ -43,10 +43,19 @@ export default function WelcomeScreen() {
 
         {/* Pitch / Mission goes here */}
         <Text style={styles.description}>
-          Many people live a long life of feeling just about right.
-          We believe there's more to life than feeling okay. We wanna make you flourish! We wanna increase your wellbeing by helping you to <Text style={{ fontWeight: "bold" }}>do consistently</Text> what's <Text style={{ fontWeight: "bold" }}>good for you</Text>!
+          What's the most important book/article you've ever read? How did you find it?
+          Chances are it was pretty random.
+          Social media? Nowadays we trust social media algorithms which optimise distraction to give us self-help content.
+          A friend? Lucky you that the friend had similar challenges as you. But how many books did you get recommended by friends which did not cut it? 
+
+          Imagine an App which shows you your personalised most important content according to wellbeing science. 
+
+          An app which pushes you to truly invest time into what increases your wellbeing sustainably.
+
+          {/* Many people live their lifes feeling okay. Not great. Not fulfilled. Just functioning.
+          We believe there's more to life. We wanna make you flourish! We wanna increase your wellbeing by helping you to <Text style={{ fontWeight: "bold" }}>do consistently</Text> what's <Text style={{ fontWeight: "bold" }}>good for you</Text>!
           This is a first step towards our vision of making you, the communities around you and ultimately the world, flourish. This is a Questionnaire which aims to find what's <Text style={{ fontWeight: "bold" }}>good for you</Text>. 
-          Eventually we will integrate something like this into a solution which helps you <Text style={{ fontWeight: "bold" }}>consistently do</Text> what you find out here!
+          Eventually we will integrate something like this into a solution which helps you <Text style={{ fontWeight: "bold" }}>consistently do</Text> what you find out here! */}
         </Text>
         
         <View style={styles.featureContainer}>
