@@ -16,7 +16,7 @@ interface Habit {
 
 interface ResultsData {
   inspirational_paragraph: string;
-  habit: Habit;
+  habit?: Habit;
   contents: Content[];
   additional_paragraph: string;
 }
@@ -37,12 +37,14 @@ export const Insight: React.FC<Props> = ({ data }) => {
         {data.inspirational_paragraph}
       </Text>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Your Recommended Habit</Text>
-        <Text style={styles.habitName}>{data.habit.name}</Text>
-        <Text style={styles.habitDescription}>{data.habit.description}</Text>
-        <Text style={styles.rationale}>{data.habit.rationale}</Text>
-      </View>
+      {data.habit && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Your Recommended Habit</Text>
+          <Text style={styles.habitName}>{data.habit.name}</Text>
+          <Text style={styles.habitDescription}>{data.habit.description}</Text>
+          <Text style={styles.rationale}>{data.habit.rationale}</Text>
+        </View>
+      )}
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Recommended Resources</Text>

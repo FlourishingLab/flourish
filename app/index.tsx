@@ -14,7 +14,7 @@ export default function WelcomeScreen() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${apiBase || ""}/v1/user/id`, {
+  const res = await fetch(`${apiBase()}/v1/user/id`, {
           method: "GET",
           credentials: "include",
         });
@@ -50,12 +50,9 @@ export default function WelcomeScreen() {
 
           Imagine an App which shows you your personalised most important content according to wellbeing science. 
 
-          An app which pushes you to truly invest time into what increases your wellbeing sustainably.
+          An App which pushes you to truly invest time into what increases your wellbeing sustainably.
 
-          {/* Many people live their lifes feeling okay. Not great. Not fulfilled. Just functioning.
-          We believe there's more to life. We wanna make you flourish! We wanna increase your wellbeing by helping you to <Text style={{ fontWeight: "bold" }}>do consistently</Text> what's <Text style={{ fontWeight: "bold" }}>good for you</Text>!
-          This is a first step towards our vision of making you, the communities around you and ultimately the world, flourish. This is a Questionnaire which aims to find what's <Text style={{ fontWeight: "bold" }}>good for you</Text>. 
-          Eventually we will integrate something like this into a solution which helps you <Text style={{ fontWeight: "bold" }}>consistently do</Text> what you find out here! */}
+          Content Exploration designed for your Wellbeing!
         </Text>
         
         <View style={styles.featureContainer}>

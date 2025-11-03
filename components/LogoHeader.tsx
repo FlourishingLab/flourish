@@ -1,3 +1,4 @@
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Path, Svg } from "react-native-svg";
@@ -18,13 +19,22 @@ const LogoIcon = () => (
 const LogoHeader = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const email = "stephan.horsthemke@gmail.com";
+  const linkedin = "https://linkedin.com/in/horsthemke/"
   const onFeedback = () => setShowFeedback(true);
 
   return (
     <>
       <View style={styles.header}>
-        <LogoIcon />
-        <Text style={styles.title}>flourish</Text>
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel="Go to start"
+          onPress={() => router.push("/")}
+          activeOpacity={0.7}
+          style={styles.logobutton}
+        >
+          <LogoIcon />
+          <Text style={styles.title}>flourish</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           accessibilityRole="button"
           accessibilityLabel="Send feedback"
@@ -44,6 +54,12 @@ const LogoHeader = () => {
               Share your thoughts, ideas, or anything that's on your mind with Stephan at
             </Text>
             <Text style={styles.modalEmail}>{email}</Text>
+            <Text style={styles.modalText}>
+              or on
+            </Text>
+            <Link href={linkedin} accessibilityRole="link" style={styles.modalLink}>
+              LinkedIn
+            </Link>
             <TouchableOpacity style={styles.modalButton} onPress={() => setShowFeedback(false)}>
               <Text style={styles.modalButtonText}>Close</Text>
             </TouchableOpacity>
@@ -69,6 +85,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#3b82f6",
     marginLeft: 8,
+  },
+  logobutton: {
+     flexDirection: "row",
+     alignItems: "center" 
   },
   feedbackBtn: {
     position: "absolute",
@@ -117,9 +137,18 @@ const styles = StyleSheet.create({
   },
   modalEmail: {
     marginTop: 10,
+    marginBottom: 10,
     fontSize: 16,
     fontWeight: "600",
     color: "#1f2937",
+    textAlign: "center",
+  },
+  modalLink: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 16,
+    color: "#3b82f6",
+    fontWeight: "600",
     textAlign: "center",
   },
   modalButton: {
