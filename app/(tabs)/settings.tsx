@@ -33,30 +33,14 @@ const SettingsScreen = (): React.ReactElement => {
 
   const handleReset = async () => {
     try {
-      // Clear cookie on server
+      // delete user data
       const resp = await fetch(`${apiBase()}/v1/user/reset`, {
         method: "GET",
         credentials: "include",
       });
       if (!resp.ok) {
-        throw new Error(`Failed to clear uid cookie. Status: ${resp.status}`);
+        throw new Error(`Failed to clear user data. Status: ${resp.status}`);
       }
-
-      // Disconnect current stream
-      disconnectStream();
-
-      // Fetch a new user ID
-      const idRes = await fetch(`${apiBase()}/v1/user/id`, {
-        method: "GET",
-        credentials: "include",
-      });
-      if (!idRes.ok) throw new Error(`Failed to fetch new uid. Status: ${idRes.status}`);
-      const data = await idRes.json();
-      const newUid = data?.uid || null;
-      setUserId(newUid);
-
-      // Reconnect stream
-      await connectStream();
 
       router.replace("/");
     } catch (error) {
