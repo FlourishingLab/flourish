@@ -33,7 +33,7 @@ jobs:
 
       # Deploy to Firebase Hosting (if applicable)
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v1
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLOURISHINGLAB_DBCA3 }}"
