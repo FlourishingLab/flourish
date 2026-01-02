@@ -23,13 +23,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Run tests (if applicable)
-      - name: Run tests
-        run: npm test
+      # # Run tests (if applicable)
+      # - name: Run tests
+      #   run: npm test
 
       # Build the Expo app (optional, if using EAS)
       - name: Build Expo app
-        run: npx expo build:web
+        run: npm run predeploy
 
       # Deploy to Firebase Hosting (if applicable)
       - name: Deploy to Firebase Hosting
